@@ -1,82 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
-import { Appbar } from 'react-native-paper';
-import StatusCard from './components/status-card';
-import { chocadeiras } from './utils/data';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './scr/screens/Home';
+import Register from './scr/screens/Register';
+import Doubts from './scr/screens/Doubts';
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <View style={{ width: '100%' }}>
-        <Appbar.Header style={{ backgroundColor: 'black', alignItems: 'center' }}>
-          <Appbar.BackAction
-            onPress={() => { }}
-            iconColor='white'
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='HomeScreen'>
+          <Stack.Screen 
+            name='HomeScreen'
+            component={Home}
           />
-          <Appbar.Content
-            title={
-              <Image
-                source={require('../eclolife/utils/índice.jpeg')}
-                style={{
-                  height: 50,
-                  width: 150,
-                }}
-              />
-            }
+          <Stack.Screen 
+            name='Register'
+            component={Register}
           />
-        </Appbar.Header>
-      </View>
-      <Text style={styles.textChocadeirasCadastradas}>CHOCADEIRAS CADASTRADAS:</Text>
+          <Stack.Screen 
+            name='Doubts'
+            component={Doubts}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
 
-      <FlatList
-        data={chocadeiras}
-        renderItem={({ item }: any) => (
-          <StatusCard
-            item={item}
-          />)}
-      />
 
-      <TouchableOpacity style={{
-        backgroundColor: '#6bb155',
-        height: 50,
-        width: '80%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 0.5,
-        borderRadius: 20,
-        margin: 10
-      }}
-        onPress={() => {
-
-        }}
-      >
-        <Text style={{
-          fontSize: 22,
-          fontWeight: 'bold',
-          color: 'white',
-        }}>CADASTRAR</Text>
-      </TouchableOpacity>
-    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  textChocadeirasCadastradas: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 15
-  },
-  appHeader: {
-    backgroundColor: '#184DB8',
-    height: 30,
-    alignItems: 'flex-start',
-  },
-
-});
