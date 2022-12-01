@@ -1,7 +1,6 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from "react-native";
-import { Appbar } from "react-native-paper";
 import StatusCard from "../../components/status-card";
 import { chocadeiras } from "../../utils/data";
 
@@ -10,25 +9,7 @@ const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <View style={{ width: '100%' }}>
-                {/* <Appbar.Header style={{ backgroundColor: 'black', alignItems: 'center' }}>
-                    <Appbar.BackAction
-                        onPress={() => {
-
-                        }}
-                        iconColor='white'
-                    />
-                    <Appbar.Content
-                        title={
-                            <Image
-                                source={require('../../utils/índice.jpeg')}
-                                style={{
-                                    height: 50,
-                                    width: 150,
-                                }}
-                            />
-                        }
-                    />
-                </Appbar.Header> */}
+                
             </View>
             <Text style={styles.textChocadeirasCadastradas}>CHOCADEIRAS CADASTRADAS: </Text>
             <FlatList
@@ -50,7 +31,7 @@ const HomeScreen = () => {
             }}
                 onPress={() => {
                     navigation.dispatch(CommonActions.navigate({
-                        name: 'Register'
+                        name: 'Registrar'
                     }))
                 }}
             >
@@ -84,3 +65,4 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
 })
+
