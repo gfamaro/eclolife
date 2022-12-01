@@ -1,13 +1,13 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const Register = () => {
     const navigation = useNavigation()
 
-    const [nome, setNome] = useState()
-    const [temperatura, setTemperatura] = useState()
-    const [umidade, setUmidade] = useState()
+    const [temp, setTemp] = useState()
+    const [umid, setUmid] = useState()
 
     return (
         <View style={styles.container}>
@@ -21,8 +21,8 @@ const Register = () => {
                     <View style={styles.viewTextTextInput}>
                         <Text style={styles.textTitle}>Nome:</Text>
                         <View style={styles.viewRowTextInput}>
-                            <TextInput 
-                            style={styles.textInput}/>
+                            <TextInput
+                                style={styles.textInput} />
                         </View>
                     </View>
 
@@ -32,7 +32,8 @@ const Register = () => {
                             <TextInput
                                 style={styles.textInput}
                                 enablesReturnKeyAutomatically={true}
-                                keyboardType={'numbers-and-punctuation'}
+                                keyboardType={'numeric'}
+                                value={temp}
                             />
                             <View style={{
                                 justifyContent: 'center',
@@ -56,6 +57,7 @@ const Register = () => {
                                 style={styles.textInput}
                                 enablesReturnKeyAutomatically={false}
                                 keyboardType={'numeric'}
+                                value={umid}
                             />
                             <View style={{
                                 justifyContent: 'center',
@@ -79,11 +81,36 @@ const Register = () => {
                         }}
                             onPress={() => {
                                 navigation.dispatch(CommonActions.navigate({
-                                    name: 'Doubts'
+                                    name: 'Dúvidas'
                                 }))
                             }}
                         >Dúvidas frequentes</Text>
                     </Pressable>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginVertical: 35
+                    }}>
+                        <BouncyCheckbox
+                            onPress={(isChecked: boolean) => {
+                                if (isChecked === true) {
+                                    /* @ts-ignore */
+                                    setTemp('37.5')
+                                    /* @ts-ignore */
+                                    setUmid('80')
+                                } 
+                            }}
+                            fillColor='#6bb155'
+                            unfillColor='#fff'
+                            textStyle={{
+                                color: 'black',
+                            }}
+
+                        />
+                        <Text>Preencher campos com valores padrões</Text>
+                    </View>
+
                 </View>
 
 
