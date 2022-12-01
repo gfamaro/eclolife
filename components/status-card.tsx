@@ -1,61 +1,64 @@
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useState } from "react"
-import { View, Text, StyleSheet, Image, Switch } from "react-native"
+import { View, Text, StyleSheet, Image, Switch, Pressable } from "react-native"
 
 
 const StatusCard = ({ item }: any) => {
+    const navigation = useNavigation()
+
     const [onOff, setOnOff] = useState('OFF')
     const [colorOnOff, setColorOnOff] = useState('red')
 
+    const dataScreenParams = () => {
+        {/* @ts-ignore */ }
+        navigation.navigate('Dados', {
+            name: item.name,
+            temperatura: item.temperatura,
+            umidade: item.umidade,
+            qntOvos: item.qntOvos,
+            diasEclo: item.diasEclo,
+            status: onOff,
+            colorStatus: colorOnOff
+        })
+    }
+
     return (
-        <View style={styles.container}>
+        <Pressable
+            style={styles.container}
+            onPress={dataScreenParams}
+        >
             <Text style={styles.textName}>{item.name}</Text>
             <View style={styles.viewPrincipal}>
 
                 {/* TEXTOS E DADOS */}
-                <View style={{
-                    height: '100%',
-                    width: '75%',
-                    borderRightWidth: 1,
-                    justifyContent: 'space-evenly',
-                    paddingHorizontal: 20,
-                    paddingVertical: 10
-                }}>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                <View style={styles.viewTextData}>
+                    <View style={styles.textNumber}>
                         <Text style={styles.textStats}>TEMPERATURA:</Text>
                         <Text>{item.temperatura}°C</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                    <View style={styles.textNumber}>
                         <Text style={styles.textStats}>UMIDADE:</Text>
                         <Text>{item.umidade}%</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                    <View style={styles.textNumber}>
                         <Text style={styles.textStats}>QUANT. DE OVOS:</Text>
                         <Text>{item.qntOvos}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                    <View style={styles.textNumber}>
                         <Text style={styles.textStats}>DIAS PARA ECLOSÃO:</Text>
                         <Text>{item.diasEclo}</Text>
                     </View>
                 </View>
 
                 {/* IMAGEM ON/OFF */}
-                <View style={{
-                    height: '100%',
-                    width: '25%',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    
+                <View style={styles.viewOnOff}>
+
                     <Text
-                        style={{
-                            fontSize: 28,
-                            fontWeight: 'bold',
-                            marginBottom: 5
-                        }}
+                        style={styles.textOnOff}
                     >{onOff}</Text>
                     <Switch
                         onChange={() => {
-                            if(onOff === 'OFF'){
+                            if (onOff === 'OFF') {
                                 setOnOff('ON')
                                 setColorOnOff('green')
                             } else {
@@ -67,7 +70,7 @@ const StatusCard = ({ item }: any) => {
                     />
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
 
@@ -98,6 +101,29 @@ const styles = StyleSheet.create({
     textStats: {
         fontWeight: 'bold'
     },
-
+    textNumber: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between'
+    },
+    viewTextData: {
+        height: '100%',
+        width: '75%',
+        borderRightWidth: 1,
+        justifyContent: 'space-evenly',
+        paddingHorizontal: 20,
+        paddingVertical: 10
+    },
+    viewOnOff: {
+        height: '100%',
+        width: '25%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    textOnOff: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 5
+    }
 
 })
