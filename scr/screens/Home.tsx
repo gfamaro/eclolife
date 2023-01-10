@@ -1,11 +1,19 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import StatusCard from "../../components/status-card";
 import { chocadeiras } from "../../utils/data";
 
 const HomeScreen = () => {
   const navigation = useNavigation()
+
+  useEffect(() => {
+    axios.get('https://teste-30757-default-rtdb.firebaseio.com/Chocadeiras')
+    .then((resp) => {
+      console.log(resp.data)
+    })
+  }, [])
   return (
     <View style={styles.container}>
       <View style={{ width: '100%' }}>
