@@ -1,7 +1,9 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable, Alert, ScrollView } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { addDoc, collection } from "firebase/firestore"; 
+import { db } from "../../components/config/config";
 
 
 const Register = () => {
@@ -10,9 +12,42 @@ const Register = () => {
   const [name, setName] = useState('')
   const [temp, setTemp] = useState('')
   const [umid, setUmid] = useState('')
+  const [qntOvos, setQntOvos] = useState('')
 
+  // SUBMIT DATA
+  function create() {
+    addDoc(collection(db, "chocadeiras"), {
+      nome: name,
+      temp: temp,
+      umid: umid,
+      qntOvos: qntOvos,
+      realUmid: null,
+      realTemp: null,
+      diasEclo: null
+    }).then(() => {
+      // DATA SAVED SUCCESSFULLY
+      console.log('DADOS REGISTRADOS COM SUCESSO')
+      setName('') 
+      setTemp('')
+      setUmid('')
+      setQntOvos('')
+      Alert.alert(
+        'CHODAEIRA CADASTRADA',
+        'Sua chocadeira foi cadastrada com sucesso.',
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+          }
+        ]
+      )
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
   return (
     <View style={styles.container}>
+      <ScrollView>
       <Text style={styles.textCadastrar}>CADASTRAR CHOCADEIRA: </Text>
 
       {/* TEXT INPUT NAME */}
@@ -69,6 +104,21 @@ const Register = () => {
             </View>
           </View>
 
+          {/* TEXT INPUT EGGS */}
+          <View style={styles.viewTextTextInput}>
+            <Text style={styles.textTitle}>Quantidade de ovos: </Text>
+            <View style={styles.viewRowTextInput}>
+              <TextInput
+                style={styles.textInput}
+                keyboardType={'numeric'}
+                value={qntOvos}
+                onChangeText={(val) => {
+                  setQntOvos(val)
+                }}
+              />
+            </View>
+          </View>
+
           {/* FREQUENTLY ASKED QUESTIONS */}
           <Pressable>
             <Text style={styles.textQuestion}
@@ -89,7 +139,7 @@ const Register = () => {
                   setTemp('37.5')
                   /* @ts-ignore */
                   setUmid('80')
-                }
+                } 
               }}
               fillColor='#6bb155'
               unfillColor='#fff'
@@ -110,17 +160,14 @@ const Register = () => {
         }}>
           <TouchableOpacity style={styles.buttonRegister}
             onPress={() => {
-              console.log(
-                {name},
-                {temp},
-                {umid}
-              )
+              create()
             }}
           >
             <Text style={styles.textButton}>CADASTRAR</Text>
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
     </View>
   )
 }
@@ -137,7 +184,8 @@ const styles = StyleSheet.create({
   textCadastrar: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 15
+    marginTop: 15,
+    alignSelf: 'center'
   },
   viewTextTextInput: {
     height: 90,
@@ -180,7 +228,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     justifyContent: 'space-between',
-    marginTop: '15%'
   },
   textButton: {
     fontSize: 22,
